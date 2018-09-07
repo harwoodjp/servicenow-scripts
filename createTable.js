@@ -1,10 +1,13 @@
-function createTable(tableName, extendsTable, tableFields) {
+function createTable(tableObj) {
+	var tableName = tableObj.tableName,
+		extendsTable = tableObj.extendsTable;
+
 	var columnAttrs = new Packages.java.util.HashMap();
 
-	for (var i = 0; i < tableFields.length; i++) {
-		var fieldName = tableFields[i].fieldName,
-			fieldType = tableFields[i].fieldType,
-			fieldUsePrefix = tableFields[i].fieldUsePrefix;
+	for (var i = 0; i < tableObj.tableFields.length; i++) {
+		var fieldName = tableObj.tableFields[i].fieldName,
+			fieldType = tableObj.tableFields[i].fieldType,
+			fieldUsePrefix = tableObj.tableFields[i].fieldUsePrefix;
 
 		var columnAttr = new GlideColumnAttributes(fieldName);
 		columnAttr.setType(fieldType);
@@ -13,24 +16,31 @@ function createTable(tableName, extendsTable, tableFields) {
 		columnAttrs.put(fieldName, columnAttr)
 	}
 
-	var tc = new GlideTableCreator(tableName, tableName);
-	tc.setColumnAttributes(columnAttrs);
+	var tableCreator = new GlideTableCreator(tableName, tableName);
+	tableCreator.setColumnAttributes(columnAttrs);
 
 	if (extendsTable != null) {
-		tc.setExtends(extendsTable);
+		tableCreator.setExtends(extendsTable);
 	} 
 
-	tc.update();
+	tableCreator.update();
 }
 
-var tableName = "extends2";
-var extendsTable = "base2";
-var tableFields = [
-	{
-		fieldName: "field1",
-		fieldType: "integer",
-		fieldUsePrefix: false
-	},
-];
+var tableObj = {
+	tableName: "",
+	extendsTable: null, // set to name of table
+	tableFields: [
+		{
+			fieldName: "",
+			fieldType: "", // string, integer, etc.
+			fieldUsePrefix: false
+		},
+		{
+			fieldName: "",
+			fieldType: "",
+			fieldUsePrefix: false
+		},
+	]
+}
 
-createTable(tableName, extendsTable, tableFields);
+createTable(tableObj);
