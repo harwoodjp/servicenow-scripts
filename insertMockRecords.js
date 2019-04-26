@@ -1,17 +1,9 @@
-function getRandomStringValue() {
+function getRandomString() {
   return Math.random().toString(36).substring(7);
 }
 
-function getRandomIntegerValue() {
+function getRandomInteger() {
   return Math.floor(Math.random() * 9999)
-}
-
-function getRandomColumnValue(type) {
-  if (type === "STRING")
-    return getRandomStringValue();
-  if (type === "INTEGER")
-    return getRandomIntegerValue();
-  return null;
 }
 
 function insertMockRecords(schema) {
@@ -24,19 +16,22 @@ function insertMockRecords(schema) {
 
   for (var i=0; i<schema.count; i++) {
     gr.newRecord();
-    for (column in schema.columns)
-      gr.setValue(column, getRandomColumnValue(schema.columns[column]))
+    for (column in schema.columns) {
+    	if (typeof schema.columns[column] === "function")
+      	gr.setValue(column, schema.columns[column]())
+      else
+      	gr.setValue(column, schema.columns[column])
+    }
     gr.insert();
   }
 }
 
-
 insertMockRecords({
   tableName: "some_table",
   columns: {
-    some_column1: "STRING",
-    some_column2: "INTEGER",
-    some_column3: "STRING"
+    some_column1: getRandomString,
+    some_column2: getRandomInteger,
+    some_column3: getRandomString
   },
-  count: 3000
+  count: 5
 });
