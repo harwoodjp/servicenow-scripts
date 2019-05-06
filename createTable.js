@@ -19,28 +19,27 @@ function createTable(tableObj) {
 	var tableCreator = new GlideTableCreator(tableName, tableName);
 	tableCreator.setColumnAttributes(columnAttrs);
 
-	if (extendsTable != null) {
+	if (extendsTable != null)
 		tableCreator.setExtends(extendsTable);
-	} 
 
 	tableCreator.update();
 }
 
-var tableObj = {
-	tableName: "",
+var someTable = {
+	tableName: "some_table",
 	extendsTable: null, // set to name of table
 	tableFields: [
 		{
-			fieldName: "",
-			fieldType: "", // string, integer, etc.
+			fieldName: "some_column1",
+			fieldType: "string", // string, integer, etc.
 			fieldUsePrefix: false
 		},
 		{
-			fieldName: "",
-			fieldType: "",
+			fieldName: "some_column2",
+			fieldType: "integer",
 			fieldUsePrefix: false
 		},
 	]
 }
 
-createTable(tableObj);
+createTable(someTable);

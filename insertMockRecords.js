@@ -17,21 +17,20 @@ function insertMockRecords(schema) {
   for (var i=0; i<schema.count; i++) {
     gr.newRecord();
     for (column in schema.columns) {
-    	if (typeof schema.columns[column] === "function")
-      	gr.setValue(column, schema.columns[column]())
+      if (typeof schema.columns[column] === "function")
+        gr.setValue(column, schema.columns[column]())
       else
-      	gr.setValue(column, schema.columns[column])
+        gr.setValue(column, schema.columns[column])
     }
     gr.insert();
   }
 }
 
 insertMockRecords({
-  tableName: "some_table",
+  tableName: "mb_demo_drone",
   columns: {
-    some_column1: getRandomString,
-    some_column2: getRandomInteger,
-    some_column3: getRandomString
+    camera_model: "Imesity G3",
+    model: getRandomString
   },
-  count: 5
+  count: 90000
 });
